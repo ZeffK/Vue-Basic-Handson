@@ -42,12 +42,24 @@ new Vue(
             },
 
             specialAttack:function(){
-                this.monsterHealth-=this.calculateDamage(10,20);
+                var damage=this.calculateDamage(10,20);
+                this.monsterHealth-=damage
+
+                this.turns.unshift({
+                    isPlayer:true,
+                     text:'Player hits hard for monster by' + damage
+                 });
+
+
                 if(this.checkWin()){
                 return;}
 
                 damage=this.calculateDamage(7,15)
                 this.playerHealth-=damage;
+                this.turns.unshift({
+                    isPlayer:false,
+                     text:'Monster hits hard for player by' + damage
+                 });
                 if(this.checkWin());
 
 
@@ -59,12 +71,19 @@ new Vue(
 
                 if(this.playerHealth <=90){
                     this.playerHealth +=10;
+                    this.turns.unshift({
+                        isPlayer:true,
+                         text:'Player heals self by' + 10
+                     });
+
+                    
                 }
                 else{
                     this.playerHealth=100;
                 }
 
                 damage=this.calculateDamage(7,15)
+                
                 this.playerHealth-=damage;
                 if(this.checkWin());
 
